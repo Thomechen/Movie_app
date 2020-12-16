@@ -1,3 +1,17 @@
+'''
+# Connect MySQL
+import mysql.connector
+austindb = mysql.connector.connect(
+  host = "127.0.0.1",
+  user = "root",
+  password = "017426",
+  )
+cursor=austindb.cursor()
+# Create db
+cursor.execute("CREATE DATABASE Movie")
+# Create table
+cursor.execute("CREATE TABLE theater (name VARCHAR(255), value VARCHAR(255) AUTO_INCREMENT PRIMARY Key)")
+'''
 import requests
 import pandas as pd
 from bs4 import BeautifulSoup
@@ -42,14 +56,12 @@ class Movie:
             self.date_list.append(d.text)
         for d in range(len(self.date_list)):
             print(str(d)+'.'+self.date_list[d]) #電影日期顯示
-        if self.date_list[int(input('Select Date:'))] == date[0].text:
-            for i in date[0].select('li a'):
-                print(i.text)
+        for t in date:
+            if bool(self.date_list[int(input('Select Date:'))]==t.text) == True:
+                for i in t.select('li a'):
+                    print(i.text)
                 
         
-        
-
-
 m = Movie()
 m.theater() 
 m.title(int(input('select theater:')))
