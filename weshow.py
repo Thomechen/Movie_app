@@ -20,10 +20,8 @@ class Movie:
         for t in theater_name:
             self.theater_name_list.append(t.text)
             self.theater_value_list.append(t.get('value'))
-    def theater_display(self): #顯示戲院名稱
-        self.theater()
-        for t in range(1,len(self.theater_name_list)):
-            print(str(t)+'.'+self.theater_name_list[t])
+        for t in range(1,len(self.theater_name_list)): 
+            print(str(t)+'.'+self.theater_name_list[t]) #列出電影名稱
     def theater_select(self,number): #戲院選擇
         theater_value = self.theater_value_list[number]
         return theater_value
@@ -38,20 +36,23 @@ class Movie:
     def title_link(self,number): #電影連結
         link = self.movie_link_list[number]
         return link
-    def title_date(self,number): #電影日期
-        self.title_link(number)
-        date = self.req(self.url+self.title_link(number)).select('div.movieDay')
+    def title_date(self): #電影日期
+        date = self.req(self.url+self.title_link(int(input('Select Movie:')))).select('div.movieDay h4')
         for d in date:
-            print(d.text)
+            self.date_list.append(d.text)
+        for d in range(len(self.date_list)):
+            print(str(d)+'.'+self.date_list[d]) #電影日期顯示
+        if self.date_list[int(input('Select Date:'))] == date[0].text:
+            for i in date[0].select('li a'):
+                print(i.text)
+                
         
         
 
 
 m = Movie()
-m.theater_display()
-s = input('select theater:')
-m.title(int(s))
-s = input('select movie:')
-m.title_date(int(s))
+m.theater() 
+m.title(int(input('select theater:')))
+m.title_date()
 
 
